@@ -1,6 +1,6 @@
-# Terraform AWS Project
+# AWS Messaging Project using Terraform
 
-This project uses Terraform to deploy a VPC, subnets, an internet gateway, routing tables, and EC2 instances in AWS.
+This project uses Terraform to deploy a VPC, subnets, an internet gateway, routing tables, EC2 instances, and SQS queues in AWS.
 
 ## Resources Created
 
@@ -13,6 +13,10 @@ This project uses Terraform to deploy a VPC, subnets, an internet gateway, routi
 7. **Lambda Function**: A Lambda function is deployed to produce messages to an SQS queue.
 8. **Security Groups**: Security groups for allowing HTTP, HTTPS, and SSH traffic to the EC2 instances.
 9. **IAM Roles and Policies**: IAM roles and policies for EC2 instances and Lambda function to access the SQS queue.
+10. **SQS Queue**: An SQS queue with configurable delay, message size, and retention is created.
+11. **Dead Letter Queue**: A dead letter queue for handling failed messages.
+12. **Queue Encryption**: An encrypted SQS queue is created.
+13. **Queue Policy**: A policy is defined to specify who can send messages to the queue.
 
 ## Outputs
 
