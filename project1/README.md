@@ -1,69 +1,50 @@
-# AWS SQS Terraform Configuration
+# Terraform AWS SQS Projects
 
-This Terraform project automates the provisioning of AWS Simple Queue Service (SQS) resources and related policies. It allows you to create and manage the following components:
+This repository contains three Terraform projects related to Amazon Simple Queue Service (SQS). Each project focuses on different aspects of working with SQS and demonstrates how to use Terraform to provision and manage AWS resources effectively.
 
-- **Main SQS Queue**: The main message queue for storing and processing messages.
+## Project 1: Creating an SQS Queue
 
-- **Dead Letter Queue (DLQ)**: An optional DLQ for handling messages that cannot be processed successfully by consumers.
+**Objective:** This project focuses on creating a simple SQS queue using Terraform.
 
-- **Queue Encryption**: Optional encryption settings for enhanced security.
+**Description:**
 
-- **Queue Policy**: A policy that controls who can send messages to the main SQS queue.
+In this project, you will use Terraform to create an Amazon SQS queue. This queue will serve as a messaging system that allows you to send and receive messages between different components of an application. You will define the queue's properties, such as its name and any access policies, and provision it using Terraform. This project is an excellent starting point to get familiar with basic SQS configurations and Terraform resource definitions.
 
+**Key Tasks:**
 
-This Terraform project consists of multiple configuration files:
+- Create an SQS queue with a specific name.
+- Define access policies for the queue.
+- Use Terraform to provision the resources on AWS.
 
-- `main.tf`: Contains the main configuration for creating AWS SQS queues, policies, and related resources.
+## Project 2: Producer and Consumer for SQS Queue
 
-- `sqs.tf`: Defines the specific settings and attributes for the SQS queues, including their names, configurations, and redrive policies.
+**Objective:** This project focuses on building a complete workflow involving message producers and consumers using SQS.
 
-- `outputs.tf`: Specifies the outputs that provide information about the created resources after applying the Terraform configuration.
+**Description:**
 
-## Prerequisites
+In this project, you will create an SQS queue as in the first project but then go further by implementing message producers and consumers. You'll use AWS Lambda functions as message producers and EC2 instances as message consumers. AWS Lambda functions will periodically send messages to the SQS queue, and EC2 instances will poll the queue for messages and process them. This project demonstrates how to set up a fully functional messaging system using SQS and Terraform.
 
-Before you apply this Terraform configuration, make sure you have:
+**Key Tasks:**
 
-1. [Terraform](https://www.terraform.io/) installed on your local machine.
+- Create an SQS queue.
+- Create AWS Lambda functions to act as message producers.
+- Launch EC2 instances as message consumers.
+- Implement polling logic in the EC2 instances to retrieve and process messages from the SQS queue.
+- Define Terraform configurations for all these resources and their dependencies.
 
-2. AWS credentials configured. You can set them up using the AWS CLI or environment variables.
+## Project 3: Auto-Scaling SQS Consumers
 
-## Usage
+**Objective:** This project focuses on dynamically scaling the number of consumers based on SQS queue length.
 
-1. Clone this repository to your local machine:
+**Description:**
 
-   ```bash
-   git clone <repository-url>
+In this project, you will extend the previous project by integrating AWS Auto Scaling. You will configure an Auto Scaling group for the EC2 instances that act as message consumers. The Auto Scaling group will monitor the length of the SQS queue using CloudWatch metrics. If the queue length increases beyond a certain threshold, the Auto Scaling group will automatically add more EC2 instances to handle the increased workload. Conversely, if the queue length decreases, it will scale down the number of instances. This project demonstrates how to create a scalable architecture that can adapt to varying message loads using Terraform and AWS services.
 
-2. Change into the project directory:
-cd <repository-folder>
+**Key Tasks:**
 
-3. Create a terraform.tfvars file and specify the required variable
-sqs_queue_name            = "your-queue-name"
-sqs_queue_name_deadletter = "your-deadletter-queue-name"
-sqs_queue_name_encryption = "your-encrypted-queue-name"
-sqs_queue_environment     = "dev"
+- Build upon the previous project's setup with message producers and consumers.
+- Configure an Auto Scaling group for EC2 instances.
+- Define CloudWatch alarms to trigger scaling actions based on SQS queue length.
+- Implement Terraform configurations to set up Auto Scaling and related resources.
 
-4. run the folloeing 
-terraform init
-terraform plan
-terraform apply
-
-
-5. After applying, Terraform will create the following resources:
-Main SQS Queue: A main SQS queue for message storage and processing.
-Dead Letter Queue (DLQ): An optional DLQ for handling failed messages.
-Queue Encryption: Optional encryption for the main SQS queue.
-Queue Policy: A policy allowing message sending to the main queue.
-
-# Outputs
-queue_url: URL of the main SQS queue.
-queue_arn: ARN of the main SQS queue.
-dead_letter_queue_url: URL of the Dead Letter Queue (DLQ).
-queue_encryption_status: SQS Queue Encryption Status.
-queue_policy: Policy attached to the main SQS queue.
-
-
-## ## ## ## ## ## ## ## ##  
-#### Part 2 ####
-## ## ## ## ## ## ## ## ##  
-
+Each of these projects will provide you with hands-on experience in working with SQS and Terraform while addressing different aspects of message queuing and scaling.

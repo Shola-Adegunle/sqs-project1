@@ -6,10 +6,16 @@ terraform {
 
     }
   }
+
+    # backend "s3" {
+    #   bucket         = "sadey2k2-tf-state-location"
+    #   key            = "dev.terraform.tfstate"
+    #   region         = "us-east-1"
+    #   dynamodb_table = "dev-terraform-state-locking"
+    # }
 }
 
 provider "aws" {
-  #shared_credentials_files = ["~/.aws/credentials"]
-  profile = "AWS Account2"
+  profile = "profile2"
   region  = "us-east-1"
 }
