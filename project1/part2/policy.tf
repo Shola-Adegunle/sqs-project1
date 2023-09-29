@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////
-  ## policy for lambda
-  ///////////////////////////////////////////////////////////////
-  resource "aws_iam_role" "lambda_role" {
+## policy for lambda
+///////////////////////////////////////////////////////////////
+resource "aws_iam_role" "lambda_role" {
   name = "lambda_role"
 
   assume_role_policy = jsonencode({
@@ -27,7 +27,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
       Action = [
         "sqs:SendMessage"
       ],
-      Effect = "Allow",
+      Effect   = "Allow",
       Resource = "*"
     }]
   })

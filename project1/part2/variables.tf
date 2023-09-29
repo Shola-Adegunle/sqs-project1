@@ -63,3 +63,22 @@ variable "rt_count" {
 variable "default_cidr_route" {
   default = "0.0.0.0/0"
 }
+
+
+//////////////////////////////
+## INSTANCE VARIABLES
+/////////////////////////////
+variable "instance_count" {
+  default = 2
+}
+
+variable "instance_type" {
+  default = "t2.micro"
+}
+
+variable "key_pair_name" {
+  type        = string
+  description = "private key name"
+  default     = "TerraformLabs2"
+  sensitive   = true
+}

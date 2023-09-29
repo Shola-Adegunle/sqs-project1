@@ -9,7 +9,6 @@ terraform {
 }
 
 provider "aws" {
-  #shared_credentials_files = ["~/.aws/credentials"]
-  profile = "AWS Account2"
+  profile = "profile2"
   region  = "us-east-1"
 }
