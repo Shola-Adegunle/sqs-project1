@@ -55,45 +55,25 @@ resource "aws_iam_instance_profile" "ec2_sqs_profile" {
 }
 
 ///////////////////////////////////////////
-# EC2 WEB INSTANCES
-///////////////////////////////////////////
-resource "aws_instance" "ec2_sqs" {
-  count                  = var.instance_count
-  ami                    = data.aws_ami.amz-linux2.id
-  instance_type          = var.instance_type
-  key_name               = var.key_pair_name
-  subnet_id              = aws_subnet.private_subnet[count.index].id
-  vpc_security_group_ids = [aws_security_group.allow_ssh.id] #var.security_group_ids
-  tenancy                = var.instance_tenancy
-  iam_instance_profile   = aws_iam_instance_profile.ec2_sqs_profile.name
-  user_data              = templatefile("scripts/user_data.sh", { QUEUE_URL = aws_sqs_queue.terraform_queue.url })
-
-  tags = {
-    Name = "EC2 Web${count.index + 1}-${var.project}-${var.environment}"
-  }
-
-}
-
-///////////////////////////////////////////
 # EC2 ASG
 ///////////////////////////////////////////
 resource "aws_launch_configuration" "ec2-lc" {
-  name                 = "ec2-lc"
   image_id             = data.aws_ami.amz-linux2.id
   instance_type        = var.instance_type
   key_name             = var.key_pair_name
-  user_data = templatefile("scripts/user_data.sh", { QUEUE_URL = aws_sqs_queue.terraform_queue.url })
+  user_data            = templatefile("scripts/user_data.sh", { QUEUE_URL = aws_sqs_queue.terraform_queue.url })
   iam_instance_profile = aws_iam_instance_profile.ec2_sqs_profile.name
   security_groups      = [aws_security_group.allow_ssh.id]
+  placement_tenancy    = var.instance_tenancy
 
 }
 
 
 resource "aws_autoscaling_group" "ec2_asg" {
   name             = "asg-${var.project}-${var.environment}"
-  desired_capacity = 1
-  min_size         = 1
-  max_size         = 2
+  desired_capacity = 2 // Set to 2 to launch two instances initially
+  min_size         = 2
+  max_size         = 3
 
   launch_configuration = aws_launch_configuration.ec2-lc.name
   vpc_zone_identifier  = aws_subnet.private_subnet[*].id //  is defined as a list of subnet resources
@@ -102,6 +82,11 @@ resource "aws_autoscaling_group" "ec2_asg" {
   wait_for_capacity_timeout = "0"   //  to skip waiting for the desired capacity
   health_check_type         = "EC2" // using EC2 status checks
 
+  tag {
+    key                 = "Name"
+    value               = "EC2-ASG-${var.project}-${var.environment}"
+    propagate_at_launch = true
+  }
 
 }
 

@@ -53,9 +53,9 @@ output "ami_id" {
   value       = data.aws_ami.amz-linux2.id
 }
 
-output "ec2_instance_ids" {
+output "ec2_launch_configuration_ids" {
   description = "The IDs of the EC2 instances"
-  value       = aws_instance.ec2_sqs[*].id
+  value       = aws_launch_configuration.ec2-lc[*].id
 }
 
 output "lambda_function_name" {
