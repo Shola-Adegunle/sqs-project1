@@ -18,7 +18,7 @@ variable "sqs_queue_environment" {
 ### ENVIRONMENT VARIABLES ###
 //////////////////////////////
 variable "project" {
-  default = "project2"
+  default = "project3"
 }
 
 variable "environment" {
